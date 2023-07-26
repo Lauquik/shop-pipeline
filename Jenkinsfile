@@ -1,6 +1,8 @@
 pipeline{
   agent{
-    doggy { image 'node:18' }
+    docker { 
+      label 'doggy'
+    }
   } 
   stages{
 
