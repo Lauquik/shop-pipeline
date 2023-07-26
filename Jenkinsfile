@@ -1,18 +1,22 @@
-pipeline {
-  agent any
-  stages {
-    stage('Test') {
-      steps {
-        sh 'npm install' // Install dependencies
-        sh 'npm test'    // Run tests
+pipeline{
+  agent{
+    docker {image: 'node:18'}
+  } 
+  stages{
+
+    stage('test'){
+      steps{
+          sh 'npm install'
+          sh 'npm test'
+      }
+    }
+    stage('build'){
+      steps{
+        sh 'npm install'
+        sh 'npm build'
       }
     }
 
-    stage('Build') {
-      steps {
-        sh 'npm install'      // Install dependencies (optional, in case you haven't installed them in the test stage)
-        sh 'npm run build'    // Build your Node.js application
-      }
-    }
   }
+
 }
