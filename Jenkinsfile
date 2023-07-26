@@ -1,6 +1,6 @@
 pipeline{
   agent{
-    docker { image 'node:18' }
+    doggy { image 'node:18' }
   } 
   stages{
 
