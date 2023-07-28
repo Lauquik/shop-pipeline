@@ -21,10 +21,8 @@ pipeline {
 
     stage('sonar analysis'){
       steps{
-          stage('SonarQube analysis') {
-          withSonarQubeEnv('sonarserver') {
-            sh "sonar-scanner -Dsonar.token=squ_fda766faa93bd7b3107e92d1d3272f08846ceb5c"
-          }
+        withSonarQubeEnv('sonarserver') {
+          sh "sonar-scanner -Dsonar.token=squ_fda766faa93bd7b3107e92d1d3272f08846ceb5c"
         }
       }
     }
