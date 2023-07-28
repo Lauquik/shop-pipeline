@@ -20,7 +20,7 @@ pipeline {
       }
       steps{
         withSonarQubeEnv('sonarserver') {
-          sh "${scannerHome}/sonar-scanner -Dsonar.token=squ_fda766faa93bd7b3107e92d1d3272f08846ceb5c Dsonar.projectName=shoppin"
+          sh "${scannerHome}/sonar-scanner -Dsonar.token=squ_fda766faa93bd7b3107e92d1d3272f08846ceb5c"
         }
       }
     }
