@@ -1,7 +1,7 @@
+
 {
   "name": "shoppinn",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
     "@testing-library/user-event": "^13.5.0",
     "jest": "^27.5.1",
