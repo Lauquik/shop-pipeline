@@ -15,15 +15,15 @@ pipeline {
         sh 'npm run build'
       }
     }
-    // stage('sonar analysis'){
-    //   environment {
-    //       scannerHome = tool "sonarscanner"
-    //   }
-    //   steps{
-    //     withSonarQubeEnv('sonarserver') {
-    //       sh "${scannerHome}/sonar-scanner -Dsonar.token=squ_fda766faa93bd7b3107e92d1d3272f08846ceb5c"
-    //     }
-    //   }
-    // }
+    stage('sonar analysis'){
+      environment {
+          scannerHome = tool "sonarscanner"
+      }
+      steps{
+        withSonarQubeEnv('sonarserver') {
+          sh "${scannerHome}/sonar-scanner -Dsonar.token=squ_db7b447f961deb315feb53d52b41b8edf52ef8ec"
+        }
+      }
+    }
   }
 }
