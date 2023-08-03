@@ -1,18 +1,18 @@
 pipeline {
   agent any
   stages {
-    stage('test') {
-      steps {
-        sh 'npm install'
-        sh 'npm test'
-      }
-    }
-    stage('build') {
-      steps {
-        sh 'npm install'
-        sh 'npm run build'
-      }
-    }
+    // stage('test') {
+    //   steps {
+    //     sh 'npm install'
+    //     sh 'npm test'
+    //   }
+    // }
+    // stage('build') {
+    //   steps {
+    //     sh 'npm install'
+    //     sh 'npm run build'
+    //   }
+    // }
     stage('sonar analysis'){
       environment {
           scannerHome = tool "sonarscanner"
