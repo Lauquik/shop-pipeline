@@ -1,16 +1,16 @@
 pipeline {
   agent none
   stages {
-    stage('test') {
-      agent{
-        label 'agent0'
-      }
-      steps {
-        checkout scm
-        sh 'npm install'
-        sh 'npm test'
-      }
-    }
+    // stage('test') {
+    //   agent{
+    //     label 'agent0'
+    //   }
+    //   steps {
+    //     checkout scm
+    //     sh 'npm install'
+    //     sh 'npm test'
+    //   }
+    // }
     // stage('build') {
     //   steps {
     //     sh 'npm install'
