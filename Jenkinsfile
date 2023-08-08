@@ -33,9 +33,12 @@ pipeline {
       }
       steps{
         checkout scm
-            script {
-                def dockerImageTag = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-                docker.build("myshoppapp:${dockerImageTag}")
+            // script {
+            //     def dockerImageTag = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+            //     docker.build("myshoppapp:${dockerImageTag}")
+            // }
+            steps{
+              sh "docker build -t myshop:${env.BUILD_NUMBER} ."
             }
       }
     }
