@@ -37,9 +37,7 @@ pipeline {
             //     def dockerImageTag = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
             //     docker.build("myshoppapp:${dockerImageTag}")
             // }
-            steps{
-              sh "docker build -t myshop:${env.BUILD_NUMBER} ."
-            }
+        sh "docker build -t myshop:${env.BUILD_NUMBER} ."
       }
     }
   }
