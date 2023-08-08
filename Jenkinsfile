@@ -5,12 +5,12 @@ pipeline {
       agent{
         label 'agent0'
       }
-    //   steps {
-    //     checkout scm
-    //     sh 'npm install'
-    //     sh 'npm test'
-    //   }
-    // }
+      steps {
+        checkout scm
+        sh 'npm install'
+        sh 'npm test'
+      }
+    }
     // stage('build') {
     //   steps {
     //     sh 'npm install'
