@@ -22,8 +22,8 @@ pipeline {
         checkout scm
       }
     }
-    
-    stage('test') {
+
+    stage('Test') {
       agent{
         label 'agent0'
       }
@@ -33,7 +33,7 @@ pipeline {
       }
     }
 
-    stage('build') {
+    stage('Build') {
       agent{
         label 'agent1'
       }
@@ -43,7 +43,7 @@ pipeline {
       }
     }
 
-    stage('sonar analysis'){
+    stage('Sonar Analysis'){
       agent {
         label 'agent0'
       }
@@ -57,7 +57,7 @@ pipeline {
       }
     }
 
-    stage('build docker image') {
+    stage('Build docker image') {
       agent{
         label 'agent1'
       }
@@ -68,7 +68,7 @@ pipeline {
       }
     }
 
-    stage('push docker image'){
+    stage('push to ECR'){
       agent{
         label 'agent1'
       }
