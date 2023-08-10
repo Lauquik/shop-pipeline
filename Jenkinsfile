@@ -22,7 +22,6 @@ pipeline {
         checkout scm
       }
     }
-
   //   stage('test') {
   //     agent{
   //       label 'agent0'
@@ -91,7 +90,7 @@ pipeline {
   //         }
   //     }
   //   }
-  // }
+  }
 
   post {
       always {
