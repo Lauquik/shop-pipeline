@@ -72,9 +72,11 @@ pipeline {
         label 'agent1'
       }
       steps {
-          withAWS(credentials: 'awscreds', region: 'us-west-1') {
-              sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
-          } 
+          script {
+              withAWS(credentials: 'awscreds', region: 'us-east-1') {
+                  sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+              } 
+          }
       }
     }
   }
