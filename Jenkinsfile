@@ -39,19 +39,19 @@ pipeline {
     //   }
     // }
 
-    // // stage('sonar analysis'){
-    // //   agent {
-    // //     label 'agent0'
-    // //   }
-    // //   environment {
-    // //       scannerHome = tool "sonarscanner"
-    // //   }
-    // //   steps{
-    // //     withSonarQubeEnv('sonarserver') {
-    // //       sh "${scannerHome}/sonar-scanner -Dsonar.token=squ_db7b447f961deb315feb53d52b41b8edf52ef8ec"
-    // //     }
-    // //   }
-    // // }
+    stage('sonar analysis'){
+      agent {
+        label 'agent0'
+      }
+      environment {
+          scannerHome = tool "sonarscanner"
+      }
+      steps{
+        withSonarQubeEnv('sonarserver') {
+          sh "${scannerHome}/sonar-scanner"
+        }
+      }
+    }
 
     // stage('build docker image') {
     //   agent{
@@ -77,15 +77,15 @@ pipeline {
     //   }
     // }
 
-    stage('deploy to ECS'){
-      agent{
-        label 'agent1'
-      }
-      steps {
-          withAWS(credentials: 'awscreds', region: 'us-east-1') {
-              sh "aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment"
-          }
-      }
-    }
+    // stage('deploy to ECS'){
+    //   agent{
+    //     label 'agent1'
+    //   }
+    //   steps {
+    //       withAWS(credentials: 'awscreds', region: 'us-east-1') {
+    //           sh "aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment"
+    //       }
+    //   }
+    // }
   }
 }
