@@ -2,12 +2,10 @@ pipeline {
   agent none
 
   environment {
-
     Container_Registry = '453947716429.dkr.ecr.us-east-1.amazonaws.com/myshopapp'
     Regisry_URL = 'http://453947716429.dkr.ecr.us-east-1.amazonaws.com/myshopapp'
-
   }
-
+  
   stages {
     stage('test') {
       agent{
@@ -41,7 +39,7 @@ pipeline {
     }
 
     stage('push docker image'){
-      agentv{
+      agent{
         label 'agent1'
       }
       steps{
