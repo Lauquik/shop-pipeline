@@ -4,6 +4,8 @@ pipeline {
   environment {
     Container_Registry = '453947716429.dkr.ecr.us-east-1.amazonaws.com/myshopapp'
     Regisry_URL = 'http://453947716429.dkr.ecr.us-east-1.amazonaws.com/myshopapp'
+    cluster = 'cicdcluster'
+    service = 'myshopappservice'
   }
   
   stages {
@@ -26,6 +28,20 @@ pipeline {
         sh 'npm run build'
       }
     }
+
+    // stage('sonar analysis'){
+    //   agent {
+    //     label 'agent0'
+    //   }
+    //   environment {
+    //       scannerHome = tool "sonarscanner"
+    //   }
+    //   steps{
+    //     withSonarQubeEnv('sonarserver') {
+    //       sh "${scannerHome}/sonar-scanner -Dsonar.token=squ_db7b447f961deb315feb53d52b41b8edf52ef8ec"
+    //     }
+    //   }
+    // }
 
     stage('build docker image') {
       agent{
@@ -51,15 +67,15 @@ pipeline {
       }
     }
 
-    // stage('sonar analysis'){
-    //   environment {
-    //       scannerHome = tool "sonarscanner"
-    //   }
-    //   steps{
-    //     withSonarQubeEnv('sonarserver') {
-    //       sh "${scannerHome}/sonar-scanner -Dsonar.token=squ_db7b447f961deb315feb53d52b41b8edf52ef8ec"
-    //     }
-    //   }
-    // }
+    stage('deploy to ECS'){
+      agent{
+        label 'agent1'
+      }
+      steps {
+          withAWS(credentials: 'awscreds', region: 'us-west-1') {
+              sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+          } 
+      }
+    }
   }
 }
