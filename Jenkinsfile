@@ -34,7 +34,9 @@ pipeline {
         label 'agent1'
       }
       steps{
-        dockerImage = docker.build( Container_Registry + ":$BUILD_NUMBER")
+        script{
+          dockerImage = docker.build( Container_Registry + ":$BUILD_NUMBER")
+        }
       }
     }
 
