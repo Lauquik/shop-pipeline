@@ -29,7 +29,7 @@ pipeline {
       }
     }
 
-    stage('docker build') {
+    stage('build docker image') {
       agent{
         label 'agent1'
       }
@@ -40,6 +40,18 @@ pipeline {
       }
     }
 
+    stage('push docker image'){
+      agentv{
+        label 'agent1'
+      }
+      steps{
+        script {
+          docker.withRegistry( Regisry_URL, 'ecr:us-east-1:awscreds') {
+            dockerImage.push('latest')
+          }
+        }
+      }
+    }
 
     // stage('sonar analysis'){
     //   environment {
