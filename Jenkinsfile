@@ -1,3 +1,7 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good', 
+    'FAILURE': 'danger',
+]
 pipeline {
   agent none
 
@@ -19,73 +23,84 @@ pipeline {
       }
     }
 
-    // stage('test') {
-    //   agent{
-    //     label 'agent0'
-    //   }
-    //   steps {
-    //     sh 'npm install'
-    //     sh 'npm test'
-    //   }
-    // }
+  //   stage('test') {
+  //     agent{
+  //       label 'agent0'
+  //     }
+  //     steps {
+  //       sh 'npm install'
+  //       sh 'npm test'
+  //     }
+  //   }
 
-    // stage('build') {
-    //   agent{
-    //     label 'agent1'
-    //   }
-    //   steps {
-    //     sh 'npm install'
-    //     sh 'npm run build'
-    //   }
-    // }
+  //   stage('build') {
+  //     agent{
+  //       label 'agent1'
+  //     }
+  //     steps {
+  //       sh 'npm install'
+  //       sh 'npm run build'
+  //     }
+  //   }
 
-    stage('sonar analysis'){
-      agent {
-        label 'agent0'
+  //   stage('sonar analysis'){
+  //     agent {
+  //       label 'agent0'
+  //     }
+  //     environment {
+  //         scannerHome = tool "sonarscanner"
+  //     }
+  //     steps{
+  //       withSonarQubeEnv('sonarserver') {
+  //         sh "${scannerHome}/sonar-scanner"
+  //       }
+  //     }
+  //   }
+
+  //   stage('build docker image') {
+  //     agent{
+  //       label 'agent1'
+  //     }
+  //     steps{
+  //       script{
+  //         dockerImage = docker.build( Container_Registry + ":$BUILD_NUMBER")
+  //       }
+  //     }
+  //   }
+
+  //   stage('push docker image'){
+  //     agent{
+  //       label 'agent1'
+  //     }
+  //     steps{
+  //       script {
+  //         docker.withRegistry( Regisry_URL, 'ecr:us-east-1:awscreds') {
+  //           dockerImage.push('latest')
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   stage('deploy to ECS'){
+  //     agent{
+  //       label 'agent1'
+  //     }
+  //     steps {
+  //         withAWS(credentials: 'awscreds', region: 'us-east-1') {
+  //             sh "aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment"
+  //         }
+  //     }
+  //   }
+  // }
+
+  post {
+      always {
+          echo "PIPELINE EXECUTED SUCCESSFULLY"
+          echo 'Sending Slack Notifications.'
+          slackSend channel: '#devops',
+              color: COLOR_MAP[currentBuild.currentResult],
+              message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
       }
-      environment {
-          scannerHome = tool "sonarscanner"
-      }
-      steps{
-        withSonarQubeEnv('sonarserver') {
-          sh "${scannerHome}/sonar-scanner"
-        }
-      }
-    }
-
-    // stage('build docker image') {
-    //   agent{
-    //     label 'agent1'
-    //   }
-    //   steps{
-    //     script{
-    //       dockerImage = docker.build( Container_Registry + ":$BUILD_NUMBER")
-    //     }
-    //   }
-    // }
-
-    // stage('push docker image'){
-    //   agent{
-    //     label 'agent1'
-    //   }
-    //   steps{
-    //     script {
-    //       docker.withRegistry( Regisry_URL, 'ecr:us-east-1:awscreds') {
-    //         dockerImage.push('latest')
-    //       }
-    //     }
-    //   }
-    // }
-
-    // stage('deploy to ECS'){
-    //   agent{
-    //     label 'agent1'
-    //   }
-    //   steps {
-    //       withAWS(credentials: 'awscreds', region: 'us-east-1') {
-    //           sh "aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment"
-    //       }
-    //   }
-    // }
   }
+
 }
