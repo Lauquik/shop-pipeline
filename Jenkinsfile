@@ -1,22 +1,44 @@
 pipeline {
   agent none
+
+  environment {
+
+    Container_Registry = '453947716429.dkr.ecr.us-east-1.amazonaws.com/myshopapp'
+    Regisry_URL = 'http://453947716429.dkr.ecr.us-east-1.amazonaws.com/myshopapp'
+
+  }
+
   stages {
-    // stage('test') {
-    //   agent{
-    //     label 'agent0'
-    //   }
-    //   steps {
-    //     checkout scm
-    //     sh 'npm install'
-    //     sh 'npm test'
-    //   }
-    // }
-    // stage('build') {
-    //   steps {
-    //     sh 'npm install'
-    //     sh 'npm run build'
-    //   }
-    // }
+    stage('test') {
+      agent{
+        label 'agent0'
+      }
+      steps {
+        sh 'npm install'
+        sh 'npm test'
+      }
+    }
+
+    stage('build') {
+      agent{
+        label 'agent1'
+      }
+      steps {
+        sh 'npm install'
+        sh 'npm run build'
+      }
+    }
+
+    stage('docker build') {
+      agent{
+        label 'agent1'
+      }
+      steps{
+        dockerImage = docker.build( Container_Registry + ":$BUILD_NUMBER")
+      }
+    }
+
+
     // stage('sonar analysis'){
     //   environment {
     //       scannerHome = tool "sonarscanner"
@@ -27,18 +49,5 @@ pipeline {
     //     }
     //   }
     // }
-    stage('docker build') {
-      agent{
-        label 'agent1'
-      }
-      steps{
-        checkout scm
-            // script {
-            //     def dockerImageTag = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
-            //     docker.build("myshoppapp:${dockerImageTag}")
-            // }
-        sh "docker build -t myshop:${env.BUILD_NUMBER} ."
-      }
-    }
   }
 }
